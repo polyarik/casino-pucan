@@ -1,0 +1,113 @@
+@font-face {
+	font-family: "cooper";
+	src: url("../assets/fonts/Cooper.TTF");
+}
+
+@font-face {
+	font-family: "clobberin";
+	src: url("../assets/fonts/ClobberinTimeSmooth.ttf");
+}
+
+:root {
+	--margin: 8px;
+
+	--trasparent-black: hsla(0, 0%, 0%, .42);
+	--gray: hsl(0, 0%, 20%);
+	--red-dull: hsl(0, 18%, 34%);
+	--red: hsl(0, 67%, 34%);
+	--red-dark: hsl(0, 30%, 16%);
+	--red-light: hsl(0, 52%, 49%);
+	--green: hsl(116, 67%, 34%);
+	--green-dark: hsl(120, 30%, 16%);
+	--green-light: hsl(120, 52%, 49%);
+	--purple: hsl(271, 61%, 38%);
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+	overflow: hidden;
+
+	font-family: "cooper";
+	white-space: nowrap;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+
+	background-color: rgb(200, 205, 220);
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.content {
+	--font-size: min(5vw, 9vh);
+	--additional-font-size: min(4vw, 7vh);
+
+	position: relative;
+	width: 100vw;
+	height: calc(50vw * 9/8);
+	max-height: 100vh;
+
+	display: grid;
+	grid-template-columns: 1fr 2fr 1fr;
+	grid-template-rows: 100%;
+	grid-template-areas: "balance slot-machine log";
+}
+
+input {
+	position: absolute;
+	width: 0;
+    height: 0;
+
+    opacity: 0;
+}
+
+@media (orientation: landscape) and (min-aspect-ratio: 16/9) {
+	.content {
+		grid-template-columns: 1fr calc(100vh * 8/9) 1fr;
+	}
+}
+
+@media (orientation: portrait) {
+	.content {
+		--font-size: calc(20vw / 3);
+		--additional-font-size: calc(16vw / 3); /*min(Xvw, Yvh) ?*/
+
+		width: 100%;
+		height: 100%;
+
+		grid-template-columns: 2fr 1fr;
+		grid-template-rows: 150px auto;
+		grid-template-areas:
+			"slot-machine balance"
+			"slot-machine log";
+	}
+}
+
+/*.log scrollbar*/
+
+@keyframes blinking {
+	0%, 50%{
+		color: var(--red-dull);
+		-webkit-text-stroke-color: var(--gray);
+	}
+
+	50.1%, 100% {
+		color: var(--red);
+		-webkit-text-stroke-color: black;
+	}
+}

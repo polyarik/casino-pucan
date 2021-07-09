@@ -1,0 +1,82 @@
+<!doctype html>
+
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+
+		<title>Casino Pucan</title>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/slot-machine.css">
+		<link rel="stylesheet" type="text/css" href="css/balance.css">
+		<link rel="stylesheet" type="text/css" href="css/log.css">
+		<link rel="stylesheet" type="text/css" href="css/flash-screen.css">
+	</head>
+
+	<body onload="init()">
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/animation.js"></script>
+
+		<input type="radio" id="flash-screen-green-radio" name="flash-screen">
+		<input type="radio" id="flash-screen-red-radio" name="flash-screen">
+		<input type="radio" id="flash-screen-pucan-radio" name="flash-screen">
+
+		<div class="flash-screen">casino pucan</div>
+
+		<div class="backdrop"></div>
+
+		<div class="content">
+			<div class="slot-machine">
+				<input type="radio" id="lever-radio">
+
+				<div class="reels">
+					<div class="reel"></div>
+					<div class="reel"></div>
+					<div class="reel"></div>
+				</div>
+
+				<div class="case"></div>
+
+				<div class="sign"><span>casino - pucan</span></div>
+
+				<div class="bet">
+					<span>bet</span>
+					<div class="bet-value"><span>$10</span></div>
+				</div>
+
+				<div class="lever-wrapper">
+					<label for="lever-radio" class="lever" onclick="spin()"></label>
+				</div>
+
+				<div class="bet-btns">
+					<div class="bet-btn bet-btn-decrease">
+						<button onclick="changeBet(-10)"></button>
+						<span>-10$</span>
+					</div>
+
+					<div class="bet-btn bet-btn-increase">
+						<button onclick="changeBet(10)"></button>
+						<span>+10$</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="balance-wrapper">
+				<input type="radio" id="balance-radio">
+
+				<div class="balance">
+					<span>$0</span>
+					<div class="balance-change">+0$</div>
+				</div>
+			</div>
+
+			<div class="log-wrapper">
+				<!-- ... -->
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,61 @@
+.balance-wrapper {
+    grid-area: balance;
+    
+    width: calc(100% - var(--margin)*2);
+    padding-left: var(--margin);
+    padding-right: var(--margin);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    font-family: Cooper;
+}
+
+.balance {
+    --border: 6px;
+
+    width: calc(5em - 20px);
+    height: calc(2.5em - 20px);
+
+    border: var(--border) double black;
+    border-radius: 8px;
+    padding: calc(var(--margin) / 2);
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+
+    font-size: var(--additional-font-size);
+
+    background-color: var(--green);
+    transition: background-color .2s;
+}
+
+.balance:hover {
+    background-color: var(--green-light);
+}
+
+.balance > span {
+    align-self: center;
+}
+
+.balance-change {
+    position: absolute;
+    font-size: calc(var(--additional-font-size) * 2/3);
+    opacity: 0;
+
+    transition: transform .2s ease-out, opacity .2s ease-out;
+}
+
+#balance-radio:checked ~ .balance .balance-change {
+    transform: translateY(calc(100% + var(--border) + var(--margin)));
+    opacity: 1;
+}
+
+@media (orientation: portrait) {
+	.balance-wrapper {
+        place-self: center auto;
+        align-items: center;
+    }
+}

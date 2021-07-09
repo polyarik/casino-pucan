@@ -1,0 +1,106 @@
+.flash-screen {
+	z-index: 73;
+	position: fixed;
+	left: 0;
+	top: 0;
+
+	width: 100vw;
+	height: 100vh;
+
+	color: transparent;
+	opacity: 0;
+	transition: opacity .3s;
+
+	pointer-events: none;
+	animation: none;
+}
+
+.backdrop {
+	z-index: 42;
+	position: fixed;
+    left: 0;
+	top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+	background-color: var(--trasparent-black);
+	opacity: 0;
+
+	transition: opacity .4s ease-out;
+
+	pointer-events: none;
+    cursor: pointer;
+}
+
+#flash-screen-green-radio:checked ~ .flash-screen {
+	background-color: hsl(120, 100%, 60%);
+	animation: flash-green .4s;
+}
+
+#flash-screen-red-radio:checked ~ .flash-screen {
+	background-color: hsl(0, 100%, 60%);
+	animation: flash-red .4s;
+}
+
+#flash-screen-pucan-radio:checked ~ .flash-screen {
+	width: 70vw;
+	height: 18vw;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	border-radius: 50%;
+
+	font-family: "clobberin";
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 9vw;
+	line-height: 18vw;
+	color: var(--red-dull);
+	-webkit-text-stroke: .6vw black;
+
+	background: radial-gradient(
+		ellipse at 50% 50%,
+		rgba(118, 60, 60, 0.8) 25%,
+		rgba(98, 51, 51, 0.8) 25%,
+		rgba(98, 51, 51, 0.8) 36%,
+		rgba(94, 58, 58, 0.8) 36%,
+		rgba(94, 58, 58, 0.8) 50%,
+		rgba(48, 28, 28, 0.64) 50%
+	);
+
+	opacity: 1;
+	animation: blinking 1s infinite;
+
+	pointer-events: none;
+}
+
+#flash-screen-pucan-radio:checked ~ .backdrop {
+	opacity: 1;
+    pointer-events: all;
+}
+
+@media (orientation: portrait) {
+	.flash-screen-pucan {
+		width: 90vw;
+		height: calc(18vw * 9/7);
+
+		font-size: calc(9vw * 9/7);
+		line-height: calc(18vw * 9/7);
+
+		-webkit-text-stroke: calc(.6vw * 9/7) black;
+	}
+}
+
+@keyframes flash-green {
+	from { opacity: 0; }
+	50% { opacity: .8; }
+	to { opacity: 0; }
+}
+
+@keyframes flash-red {
+	from { opacity: 0; }
+	50% { opacity: .8; }
+	to { opacity: 0; }
+}

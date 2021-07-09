@@ -1,0 +1,215 @@
+.slot-machine {
+    grid-area: slot-machine;
+    place-self: auto center;
+
+    width: calc(25vw * 7/4);
+    max-width: calc(100vh * 7/9);
+    padding: min(6.25%, 50vh / 9);
+
+    display: grid;
+    gap: calc(2% * 8/9) 2%;
+	grid-template-columns: 23% 1fr;
+	grid-template-rows: calc(20% - 2%*8/9) 1fr 30% 1fr;
+    grid-template-areas:
+        "sign sign"
+        "bet reels"
+        "level reels"
+        "bet-btns reels";
+
+    font-family: "clobberin";
+    text-transform: uppercase;
+}
+
+.case {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    background-image: url("../assets/images/case.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    pointer-events: none;
+}
+
+.sign {
+    z-index: 3;
+    position: relative;
+    grid-area: sign;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign > span {
+    text-align: center;
+    font-size: var(--font-size);
+    -webkit-text-stroke: calc(var(--font-size) * 0.7/9) var(--gray);
+    color: var(--red-dull);
+}
+
+.bet {
+    z-index: 3;
+    position: relative;
+    grid-area: bet;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bet > span {
+    font-size: calc(var(--font-size) * 3/4);
+    -webkit-text-stroke: calc(var(--font-size) * 0.7/12) black;
+    color: var(--purple);
+    
+    margin-bottom: var(--margin);
+}
+
+.bet-value {
+    --border-width: 4px;
+
+    width: calc(100% - var(--margin)*2 - var(--border-width)*4);
+    height: calc(24% - var(--border-width)*2);
+    padding: var(--border-width);
+
+    border: var(--border-width) solid black;
+    border-radius: 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: hsla(0, 0%, 0%, 0.32);
+}
+
+.bet-value > span {
+    font-size: calc(var(--font-size) / 2);
+}
+
+.lever-wrapper {
+    z-index: 3;
+    position: relative;
+    grid-area: level;
+
+    background-image: url("../assets/images/lever.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.lever {
+    z-index: 5;
+    position: relative;
+
+	width: 30%;
+
+    cursor: pointer;
+}
+
+#lever-radio:checked ~ .lever-wrapper {
+    background-image: url("../assets/images/lever-pressed.png");
+}
+
+#lever-radio:checked ~ .sign > span {
+    animation: blinking 1s infinite;
+}
+
+.bet-btns {
+    grid-area: bet-btns;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.bet-btn {
+    z-index: 3;
+    position: relative;
+    z-index: 5;
+    position: relative;
+    width: 40%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+.bet-btn button {
+    width: 80%;
+    height: 18%;
+
+    padding: 0;
+
+    border: 3px solid black;
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+.bet-btn span {
+    font-size: calc(var(--font-size) / 3);
+    -webkit-text-stroke: calc(var(--font-size) * 0.7/27) black;
+}
+
+.bet-btn-decrease button {
+    background-color: var(--red-dark);
+}
+
+.bet-btn-decrease button:active {
+    background-color: var(--red-light);
+}
+
+.bet-btn-decrease span {
+    color: var(--red);
+}
+
+.bet-btn-increase button {
+    background-color: var(--green-dark);
+}
+
+.bet-btn-increase button:active {
+    background-color: var(--green-light);
+}
+
+.bet-btn-increase span {
+    color: var(--green);
+}
+
+.reels {
+    grid-area: reels;
+    display: flex;
+}
+
+.reel {
+    z-index: 1;
+    position: relative;
+    width: calc(100% / 3);
+
+    background-image: url("../assets/images/reel.png");
+    background-size: 100%  auto;
+    background-repeat: repeat-y;
+}
+
+@media (orientation: portrait) {
+	.slot-machine {
+        width: unset;
+        height: calc(25vw * 8/3);
+        place-self: center auto;
+    }
+
+    .case {
+        width: calc(100vw * 2/3);
+    }
+}
