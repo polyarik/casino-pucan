@@ -10,8 +10,8 @@ if (!isset($_SESSION)) {
 	$_SESSION['lastSpin'] = null;
 }
 
-if (isset($_POST['func'])) {
-	switch ($_POST['func']) {
+if (isset($_GET['func'])) {
+	switch ($_GET['func']) {
 		case 'spin': {
 			$date = time();
 
@@ -21,7 +21,7 @@ if (isset($_POST['func'])) {
 			if (!$_SESSION['balance'])
 				exit(0);
 
-			$bet = min(floor(+$_POST['bet'] / 10) * 10, $_SESSION['balance'], 100);
+			$bet = min(floor(+$_GET['bet'] / 10) * 10, $_SESSION['balance'], 100);
 
 			if ($bet <= 0)
 				exit(0);
@@ -41,7 +41,7 @@ if (isset($_POST['func'])) {
 		}
 
 		case 'getBalance': {
-			echo $_SESSION['balance'];
+			echo json_encode($_SESSION['balance']);
 			break;
 		}
 
@@ -51,7 +51,7 @@ if (isset($_POST['func'])) {
 		}
 
 		case 'startNewGame': {
-			if (!$_SESSION['balance'] || $_POST['password'] === "davayponovoy")
+			if (!$_SESSION['balance'] || $_GET['password'] === "davayponovoy")
 				startNewGame();
 		}
 	}
