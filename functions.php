@@ -6,29 +6,30 @@ if (!isset($_SESSION)) {
 	session_start();
 	
 	$_SESSION['balance'] = 0;
+	$_SESSION['log'] = array();
 	$_SESSION['lastSpin'] = null;
 }
 
-if (!isset($_GET['func'])) {
-	switch ($_GET['func']) {
+if (isset($_POST['func'])) {
+	switch ($_POST['func']) {
 		case 'spin': {
 			$date = time();
 
 			if ($_SESSION['lastSpin'] !== null && $_SESSION['lastSpin'] - $date < SPIN_DELAY)
 				exit(0);
 
-			if (!$_SESSION['money'])
+			if (!$_SESSION['balance'])
 				exit(0);
 
-			$bet = min(floor(+$_GET['bet'] / 10), $_SESSION['money'], 100);
+			$bet = min(floor(+$_POST['bet'] / 10) * 10, $_SESSION['balance'], 100);
 
 			if ($bet <= 0)
 				exit(0);
 
 			$spinRes = spin($bet);
 			$_SESSION['balance'] += $spinRes['res'];
-
-			$_SESSION['log']->append([
+			
+			array_push($_SESSION['log'], [
 				'date' => $date,
 				'bet' => $bet,
 				'line' => $spinRes['line'],
@@ -50,7 +51,7 @@ if (!isset($_GET['func'])) {
 		}
 
 		case 'startNewGame': {
-			if (!$_SESSION['balance'])
+			if (!$_SESSION['balance'] || $_POST['password'] === "davayponovoy")
 				startNewGame();
 		}
 	}
@@ -64,14 +65,14 @@ function startNewGame() {
 function spin($bet) {
 	$rand = mt_rand(1, 20);
 
-	if ($rand < 15) {
+	if ($rand < 11) {
 		// nothing
 		$line[0] = mt_rand(1, 7);
 		$line[1] = mt_rand(1, 7);
 		$line[2] = mt_rand(1, 7);
 
 		while ($line[0] == $line[1]) {
-			$line[1] = mt_rand(1,7);
+		  $line[1] = mt_rand(1,7);
 		}
 
 		while ($line[0] == $line[2] || $line[1] == $line[2]) {
@@ -82,7 +83,7 @@ function spin($bet) {
 		$num = getNum();
 		$line = array($num, $num, $num);
 
-		if ($num_random < 19) {
+		if ($rand < 18) {
 			// match of 2
 			$differentNum = mt_rand(0, 2);
 			$line[$differentNum] = mt_rand(1,7);
@@ -109,7 +110,7 @@ function getNum() {
 }
 
 function calcResult($line, $bet) {
-	if ($line[0] == $line[1] == $line[2]) {
+	if ($line[0] == $line[1] && $line[0] == $line[2]) {
 		$res = $bet * $line[0] * 2 - $bet; // match of 3
 	} elseif ($line[0] == $line[1] || $line[0] == $line[2] || $line[1] == $line[2]) {
 		$num = ($line[0] == $line[1]) ? $line[0] : $line[2];
