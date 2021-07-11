@@ -73,14 +73,13 @@ function changeBet(value, exact=false) {
 		else
 			bet = Math.min(Math.max(bet + value, 10), balance, 100);
 
-		elements.bet.innerText = `$${bet}`;
+		elements.bet.innerText = `${bet}`;
 	}
 }
 
 async function spin() {
 	if (
 		!radioButtons.lever.checked
-		&& !radioButtons.balance.checked
 		&& !radioButtons.flashScreen.pucan.checked
 	) {
 		radioButtons.lever.checked = true;

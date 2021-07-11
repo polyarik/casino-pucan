@@ -40,12 +40,20 @@
     align-self: center;
 }
 
+.balance > span::before {
+    content: "$";
+}
+
 .balance-change {
     position: absolute;
     font-size: calc(var(--additional-font-size) * 2/3);
     opacity: 0;
 
     transition: transform .2s ease-out, opacity .2s ease-out;
+}
+
+.balance-change::after {
+    content: "$";
 }
 
 #balance-radio:checked ~ .balance .balance-change {
