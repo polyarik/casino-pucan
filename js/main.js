@@ -43,7 +43,7 @@ async function syncBalance() {
 }
 
 function updateBalance(newBalance) {
-	elements.balance.innerText = `$${newBalance}`; //TODO: animation
+	displayBalance(newBalance);
 
 	if (!newBalance)
 		radioButtons.flashScreen.pucan.checked = true;
