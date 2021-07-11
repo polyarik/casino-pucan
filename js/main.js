@@ -15,31 +15,57 @@ function init() {
 	radioButtons = {
 		'flashScreen': {
 			'green': document.querySelector("#flash-screen-green-radio"),
-			'red': document.querySelector("#flash-screen-green-radio"),
-			'pucan': document.querySelector("#flash-screen-green-radio"),
+			'red': document.querySelector("#flash-screen-red-radio"),
+			'pucan': document.querySelector("#flash-screen-pucan-radio"),
 		},
 		'lever': document.querySelector("#lever-radio"),
 		'balance': document.querySelector("#balance-radio")
 	};
 
-	updateBalance();
-	//updateLog();
+	syncBalance();
+	//syncLog();
 }
 
-async function updateBalance() {
-	balance = await request("getBalance");
-	elements.balance.innerText = `$${balance}`; //TODO: animation
+async function startNewGame() {
+	if (!balance) {
+		const newBalance = await request('startNewGame'); //TODO: animation
+		//clearLog();
+
+		if (newBalance)
+			updateBalance(newBalance);
+	}
 }
 
-async function updateLog() {
+async function syncBalance() {
+	const newBalance = await request("getBalance");
+	updateBalance(newBalance);
+}
+
+function updateBalance(newBalance) {
+	elements.balance.innerText = `$${newBalance}`; //TODO: animation
+
+	console.log(balance, newBalance);
+
+	if (!newBalance)
+		radioButtons.flashScreen.pucan.checked = true;
+	else if (newBalance < balance)
+		radioButtons.flashScreen.red.checked = true;
+	else
+		radioButtons.flashScreen.green.checked = true;
+
+	balance = newBalance;
+}
+
+async function syncLog() {
 	//balance = await request("getLog");
-
 	//...
 }
 
-function addLogEntry(entry) {
-	//...
-}
+function updateLog() {}
+
+function addLogEntry(entry) {}
+
+function clearLog() {}
 
 function changeBet(change) {
 	change = (change > 0) ? 10 : -10;

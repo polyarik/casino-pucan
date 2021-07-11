@@ -2,12 +2,12 @@
 
 define('SPIN_DELAY', 3);
 
-if (!isset($_SESSION)) {
-	session_start();
-	
+session_start();
+
+if (!isset($_SESSION['lastSpin'])) {
 	$_SESSION['balance'] = 0;
 	$_SESSION['log'] = array();
-	$_SESSION['lastSpin'] = null;
+	$_SESSION['lastSpin'] = -1;
 }
 
 if (isset($_GET['func'])) {
@@ -15,7 +15,7 @@ if (isset($_GET['func'])) {
 		case 'spin': {
 			$date = time();
 
-			if ($_SESSION['lastSpin'] !== null && $_SESSION['lastSpin'] - $date < SPIN_DELAY)
+			if ($_SESSION['lastSpin'] !== -1 && $_SESSION['lastSpin'] - $date < SPIN_DELAY)
 				exit(0);
 
 			if (!$_SESSION['balance'])
@@ -28,6 +28,7 @@ if (isset($_GET['func'])) {
 
 			$spinRes = spin($bet);
 			$_SESSION['balance'] += $spinRes['res'];
+			$_SESSION['lastSpin'] = $date;
 			
 			array_push($_SESSION['log'], [
 				'date' => $date,
@@ -53,6 +54,8 @@ if (isset($_GET['func'])) {
 		case 'startNewGame': {
 			if (!$_SESSION['balance'] || $_GET['password'] === "davayponovoy")
 				startNewGame();
+
+			echo json_encode($_SESSION['balance']);
 		}
 	}
 }

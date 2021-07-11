@@ -1,4 +1,6 @@
 //reel animation
 
 
-//money change animation
+function displayBalance(oldBalance, newBalance) {
+    //...
+}

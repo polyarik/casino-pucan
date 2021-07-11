@@ -35,12 +35,12 @@
 
 #flash-screen-green-radio:checked ~ .flash-screen {
 	background-color: hsl(120, 100%, 60%);
-	animation: flash-green .4s;
+	animation: flash .4s;
 }
 
 #flash-screen-red-radio:checked ~ .flash-screen {
 	background-color: hsl(0, 100%, 60%);
-	animation: flash-red .4s;
+	animation: flash .4s;
 }
 
 #flash-screen-pucan-radio:checked ~ .flash-screen {
@@ -93,13 +93,7 @@
 	}
 }
 
-@keyframes flash-green {
-	from { opacity: 0; }
-	50% { opacity: .8; }
-	to { opacity: 0; }
-}
-
-@keyframes flash-red {
+@keyframes flash {
 	from { opacity: 0; }
 	50% { opacity: .8; }
 	to { opacity: 0; }
