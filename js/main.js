@@ -41,21 +41,15 @@ async function syncBalance() {
 	updateBalance(newBalance);
 }
 
-function updateBalance(newBalance, flash=true) {
+function updateBalance(newBalance) {
 	elements.balance.innerText = `$${newBalance}`; //TODO: animation
 
-	radioButtons.flashScreen.green.checked = false;
-	radioButtons.flashScreen.red.checked = false;
-	radioButtons.flashScreen.pucan.checked = false;
-
-	if (flash) {
-		if (!newBalance)
-			radioButtons.flashScreen.pucan.checked = true;
-		else if (newBalance < balance)
-			radioButtons.flashScreen.red.checked = true;
-		else
-			radioButtons.flashScreen.green.checked = true;
-	}
+	if (!newBalance)
+		radioButtons.flashScreen.pucan.checked = true;
+	else if (newBalance < balance)
+		radioButtons.flashScreen.red.checked = true;
+	else
+		radioButtons.flashScreen.green.checked = true;
 
 	balance = newBalance;
 }
@@ -71,11 +65,15 @@ function addLogEntry(entry) {}
 
 function clearLog() {}
 
-function changeBet(change) {
-	change = (change > 0) ? 10 : -10;
-	bet = Math.min(Math.max(bet + change, 10), balance, 100);
+function changeBet(value, exact=false) {
+	if (!radioButtons.lever.checked) {
+		if (exact)
+			bet = value;
+		else
+			bet = Math.min(Math.max(bet + value, 10), balance, 100);
 
-	elements.bet.innerText = `$${bet}`;
+		elements.bet.innerText = `$${bet}`;
+	}
 }
 
 async function spin() {
@@ -85,8 +83,10 @@ async function spin() {
 		&& !radioButtons.flashScreen.pucan.checked
 	) {
 		radioButtons.lever.checked = true;
-
-		updateBalance(balance - bet, false);
+		radioButtons.flashScreen.pucan.checked = false;
+		radioButtons.flashScreen.red.checked = false;
+		radioButtons.flashScreen.green.checked = false;
+		
 		//reel animation
 
 		const spinRes = await request("spin", {'bet': bet});
@@ -97,10 +97,15 @@ async function spin() {
 		'line' => $spinRes['line'],
 		'res' => $spinRes['res']*/
 
-		updateBalance(balance + spinRes.res);
-		//addLogEntry(spinRes);
+		//TEMP
+		setTimeout(() => {
+			updateBalance(balance + spinRes.res);
+			changeBet(Math.min(bet, balance), true);
 
-		radioButtons.lever.checked = false;
+			//addLogEntry(spinRes);
+
+			radioButtons.lever.checked = false;
+		}, 3000);
 	}
 }
 

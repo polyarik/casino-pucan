@@ -167,7 +167,7 @@
     background-color: var(--red-dark);
 }
 
-.bet-btn-decrease button:active {
+#lever-radio:not(:checked) ~ .bet-btns .bet-btn-decrease button:active {
     background-color: var(--red-light);
 }
 
@@ -179,7 +179,7 @@
     background-color: var(--green-dark);
 }
 
-.bet-btn-increase button:active {
+#lever-radio:not(:checked) ~ .bet-btns .bet-btn-increase button:active {
     background-color: var(--green-light);
 }
 
