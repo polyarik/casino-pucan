@@ -28,7 +28,7 @@ function init() {
 
 async function startNewGame() {
 	if (!balance) {
-		const newBalance = await request('startNewGame'); //TODO: animation
+		const newBalance = await request('startNewGame');
 		//clearLog();
 
 		if (newBalance)
@@ -41,17 +41,21 @@ async function syncBalance() {
 	updateBalance(newBalance);
 }
 
-function updateBalance(newBalance) {
+function updateBalance(newBalance, flash=true) {
 	elements.balance.innerText = `$${newBalance}`; //TODO: animation
 
-	console.log(balance, newBalance);
+	radioButtons.flashScreen.green.checked = false;
+	radioButtons.flashScreen.red.checked = false;
+	radioButtons.flashScreen.pucan.checked = false;
 
-	if (!newBalance)
-		radioButtons.flashScreen.pucan.checked = true;
-	else if (newBalance < balance)
-		radioButtons.flashScreen.red.checked = true;
-	else
-		radioButtons.flashScreen.green.checked = true;
+	if (flash) {
+		if (!newBalance)
+			radioButtons.flashScreen.pucan.checked = true;
+		else if (newBalance < balance)
+			radioButtons.flashScreen.red.checked = true;
+		else
+			radioButtons.flashScreen.green.checked = true;
+	}
 
 	balance = newBalance;
 }
@@ -74,19 +78,29 @@ function changeBet(change) {
 	elements.bet.innerText = `$${bet}`;
 }
 
-function spin() {
+async function spin() {
 	if (
 		!radioButtons.lever.checked
-		|| !radioButtons.balance.checked
-		|| !radioButtons.flashScreen.pucan.checked
+		&& !radioButtons.balance.checked
+		&& !radioButtons.flashScreen.pucan.checked
 	) {
-		//send a request
+		radioButtons.lever.checked = true;
 
+		updateBalance(balance - bet, false);
+		//reel animation
 
-		//get response (res <- last log entry)
-			//uncheck flash radio
-			//check flash radio
-			//uncheck lever radio
+		const spinRes = await request("spin", {'bet': bet});
+		console.log(spinRes);
+
+		/*'date' => $date,
+		'bet' => $bet,
+		'line' => $spinRes['line'],
+		'res' => $spinRes['res']*/
+
+		updateBalance(balance + spinRes.res);
+		//addLogEntry(spinRes);
+
+		radioButtons.lever.checked = false;
 	}
 }
 
@@ -100,7 +114,7 @@ async function request(func, params=null) {
 		}
 	}
 
-	let response = await fetch(`functions.php?${data}`)
+	let response = await fetch(`functions.php?${data}`);
 	let result = await response.json();
 
 	return result;
