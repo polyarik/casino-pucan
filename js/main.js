@@ -3,6 +3,7 @@ let radioButtons = {};
 
 let balance = 0;
 let bet = 10;
+let combination = "222";
 
 function init() {
 	elements = {
@@ -94,7 +95,7 @@ async function spin() {
 
 		/*'date' => $date,
 		'bet' => $bet,
-		'line' => $spinRes['line'],
+		'combination' => $spinRes['combination'],
 		'res' => $spinRes['res']*/
 
 		//TEMP

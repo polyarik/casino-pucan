@@ -33,7 +33,7 @@ if (isset($_GET['func'])) {
 			array_push($_SESSION['log'], [
 				'date' => $date,
 				'bet' => $bet,
-				'line' => $spinRes['line'],
+				'combination' => $spinRes['combination'],
 				'res' => $spinRes['res'] 
 			]);
 
@@ -70,35 +70,35 @@ function spin($bet) {
 
 	if ($rand < 11) {
 		// nothing
-		$line[0] = mt_rand(1, 7);
-		$line[1] = mt_rand(1, 7);
-		$line[2] = mt_rand(1, 7);
+		$combination[0] = mt_rand(1, 7);
+		$combination[1] = mt_rand(1, 7);
+		$combination[2] = mt_rand(1, 7);
 
-		while ($line[0] == $line[1]) {
-		  $line[1] = mt_rand(1,7);
+		while ($combination[0] == $combination[1]) {
+		  $combination[1] = mt_rand(1,7);
 		}
 
-		while ($line[0] == $line[2] || $line[1] == $line[2]) {
-			$line[2] = mt_rand(1,7);
+		while ($combination[0] == $combination[2] || $combination[1] == $combination[2]) {
+			$combination[2] = mt_rand(1,7);
 		}
 	} else {
 		// match
 		$num = getNum();
-		$line = array($num, $num, $num);
+		$combination = array($num, $num, $num);
 
 		if ($rand < 18) {
 			// match of 2
 			$differentNum = mt_rand(0, 2);
-			$line[$differentNum] = mt_rand(1,7);
+			$combination[$differentNum] = mt_rand(1,7);
 
-			while ($line[$differentNum] == $num) {
-				$line[$differentNum] = mt_rand(1,7);
+			while ($combination[$differentNum] == $num) {
+				$combination[$differentNum] = mt_rand(1,7);
 			}
 		}
 	}
 
-	$res = calcResult($line, $bet);
-	return array('line' => (int) implode('', $line), 'res' => $res);
+	$res = calcResult($combination, $bet);
+	return array('combination' => (int) implode('', $combination), 'res' => $res);
 }
 
 function getNum() {
@@ -112,11 +112,11 @@ function getNum() {
 	return 7;
 }
 
-function calcResult($line, $bet) {
-	if ($line[0] == $line[1] && $line[0] == $line[2]) {
-		$res = $bet * $line[0] * 2 - $bet; // match of 3
-	} elseif ($line[0] == $line[1] || $line[0] == $line[2] || $line[1] == $line[2]) {
-		$num = ($line[0] == $line[1]) ? $line[0] : $line[2];
+function calcResult($combination, $bet) {
+	if ($combination[0] == $combination[1] && $combination[0] == $combination[2]) {
+		$res = $bet * $combination[0] * 2 - $bet; // match of 3
+	} elseif ($combination[0] == $combination[1] || $combination[0] == $combination[2] || $combination[1] == $combination[2]) {
+		$num = ($combination[0] == $combination[1]) ? $combination[0] : $combination[2];
 		$res = round(($bet * $num / 2) / 10) * 10 - $bet; // match of 2
 	} else
 		$res = -$bet;
