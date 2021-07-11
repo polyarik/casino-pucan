@@ -15,16 +15,16 @@ if (isset($_GET['func'])) {
 		case 'spin': {
 			$date = time();
 
-			if ($_SESSION['lastSpin'] !== -1 && $_SESSION['lastSpin'] - $date < SPIN_DELAY)
-				exit(0);
+			if ($_SESSION['lastSpin'] !== -1 && $date - $_SESSION['lastSpin'] < SPIN_DELAY)
+				exit("0");
 
 			if (!$_SESSION['balance'])
-				exit(0);
+				exit("0");
 
 			$bet = min(floor(+$_GET['bet'] / 10) * 10, $_SESSION['balance'], 100);
 
 			if ($bet <= 0)
-				exit(0);
+				exit("0");
 
 			$spinRes = spin($bet);
 			$_SESSION['balance'] += $spinRes['res'];
