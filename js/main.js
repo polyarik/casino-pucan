@@ -27,6 +27,8 @@ function init() {
 		'balance': document.querySelector("#balance-radio")
 	};
 
+	initReelsPos(elements.reels, combination);
+
 	syncBalance();
 	//syncLog();
 }
@@ -64,7 +66,7 @@ async function syncLog() {
 	//...
 
 	//get current combination
-	//initReelsPos(elements.reels, combination);
+	//initReelsPos(elements.reels, combination); ?
 }
 
 function updateLog() {}
