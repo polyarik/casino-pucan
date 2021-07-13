@@ -38,8 +38,10 @@ async function startNewGame() {
 		const newBalance = await request('startNewGame');
 		//clearLog();
 
-		if (newBalance)
+		if (newBalance) {
 			updateBalance(newBalance);
+			changeBet(10, true);
+		}
 	}
 }
 
