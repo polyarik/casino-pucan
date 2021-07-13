@@ -76,14 +76,12 @@ function addLogEntry(entry) {}
 function clearLog() {}
 
 function changeBet(value, exact=false) {
-	if (!radioButtons.lever.checked) {
-		if (exact)
-			bet = value;
-		else
-			bet = Math.min(Math.max(bet + value, 10), balance, 100);
+	if (exact)
+		bet = value;
+	else if (!radioButtons.lever.checked)
+		bet = Math.min(Math.max(bet + value, 10), balance, 100);
 
-		elements.bet.innerText = `${bet}`;
-	}
+	elements.bet.innerText = `${bet}`;
 }
 
 async function spin() {
