@@ -10,7 +10,11 @@ function init() {
 		'balance': document.querySelector(".balance").querySelector("span"),
 		'balanceChange': document.querySelector(".balance-change"),
 		'bet': document.querySelector(".bet-value").querySelector("span"),
-		'reels': document.getElementsByClassName("reel")
+		'reels': [
+			document.querySelector("#reel-1"),
+			document.querySelector("#reel-2"),
+			document.querySelector("#reel-3")
+		]
 	};
 
 	radioButtons = {
@@ -58,6 +62,9 @@ function updateBalance(newBalance) {
 async function syncLog() {
 	//balance = await request("getLog");
 	//...
+
+	//get current combination
+	//initReelsPos(elements.reels, combination);
 }
 
 function updateLog() {}
@@ -87,8 +94,7 @@ async function spin() {
 		radioButtons.flashScreen.red.checked = false;
 		radioButtons.flashScreen.green.checked = false;
 		
-		//reel animation
-
+		startSpinningReels(elements.reels);
 		const spinRes = await request("spin", {'bet': bet});
 		console.log(spinRes);
 
@@ -97,15 +103,14 @@ async function spin() {
 		'combination' => $spinRes['combination'],
 		'res' => $spinRes['res']*/
 
-		//TEMP
-		setTimeout(() => {
-			updateBalance(balance + spinRes.res);
-			changeBet(Math.min(bet, balance), true);
+		combination = spinRes.combination + "";
+		await stopSpinningReels(elements.reels, combination, 8, 1);
 
-			//addLogEntry(spinRes);
+		updateBalance(balance + spinRes.res);
+		changeBet(Math.min(bet, balance), true);
+		//addLogEntry(spinRes);
 
-			radioButtons.lever.checked = false;
-		}, 3000);
+		radioButtons.lever.checked = false;
 	}
 }
 
