@@ -29,7 +29,6 @@
     background-image: url("../assets/images/case.png");
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center;
 
     pointer-events: none;
 }
